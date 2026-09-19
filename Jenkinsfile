@@ -1,10 +1,14 @@
 pipeline {
     agent any
+    tools {
+        maven 'my-maven'
+    }
 
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
+                sh 'mvn clean package'
                 echo "Building for branch ${BRANCH_NAME}"
             }
         }
@@ -14,6 +18,7 @@ pipeline {
             }
             steps {
                 echo 'deploying to dev..'
+                sh 'java -jar target/app.jar'
             }
         }
         stage('Deploy to Test') {

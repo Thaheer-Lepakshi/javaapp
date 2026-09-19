@@ -17,9 +17,19 @@ pipeline {
                 expression { BRANCH_NAME == 'dev' }
             }
             steps {
-                echo 'deploying to dev..'
-                sh 'java -jar target/app.jar'
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub',
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'DPWD'
+                )]) {
+                    sh 'docker build -t thaheeroutis/jenkins:${BUILD_NUMBER} .'
+                    sh "docker tag thaheeroutis/jenkins:${BUILD_NUMBER} thaheeroutis/jenkins:${BUILD_NUMBER}"
+                    sh 'echo "$DPWD" | docker login -u "$USERNAME" --password-stdin'
+                    sh "docker push thaheeroutis/jenkins:${BUILD_NUMBER}"
+                    sh "docker run -d -p 8002:8080 thaheeroutis/jenkins:${BUILD_NUMBER}"
+                }
             }
+
         }
         stage('Deploy to Test') {
             when {

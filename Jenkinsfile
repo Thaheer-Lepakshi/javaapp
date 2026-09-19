@@ -3,20 +3,37 @@ pipeline {
 
     stages {
         stage('Build') {
-            when {
-                expression { BRANCH_NAME == 'main' }
-            }
             steps {
                 echo 'Building..'
+                echo "Building for branch ${BRANCH_NAME}"
             }
         }
-        stage('Test') {
+        stage('Deploy to Dev') {
+            when {
+                expression { BRANCH_NAME == 'dev' }
+            }
             steps {
-                echo 'Testing..'
+                echo 'deploying to dev..'
             }
         }
-        stage('Deploy') {
-             when {
+        stage('Deploy to Test') {
+            when {
+                expression { BRANCH_NAME == 'test' }
+            }
+            steps {
+                echo 'deploying to test..'
+            }
+        }
+        stage('Deploy to sandbox') {
+            when {
+                expression { BRANCH_NAME == 'sandbox' }
+            }
+            steps {
+                echo 'deploying to sandbox..'
+            }
+        }
+        stage('Deploy to Prod') {
+            when {
                 expression { BRANCH_NAME == 'main' }
             }
             steps {

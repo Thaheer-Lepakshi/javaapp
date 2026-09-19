@@ -24,7 +24,7 @@ pipeline {
                 echo 'deploying to test..'
             }
         }
-            stage('Deploy to sandbox') {
+        stage('Deploy to sandbox') {
              when {
                 expression { BRANCH_NAME == 'sandbox' }
             }

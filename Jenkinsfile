@@ -25,18 +25,15 @@ pipeline {
             }
         }
         stage('Deploy to sandbox') {
-             when {
-                expression { BRANCH_NAME == 'sandbox' }
-            }
             when {
-                expression { BRANCH_NAME == 'test' }
+                expression { BRANCH_NAME == 'sandbox' }
             }
             steps {
                 echo 'deploying to sandbox..'
             }
         }
         stage('Deploy to Prod') {
-             when {
+            when {
                 expression { BRANCH_NAME == 'main' }
             }
             steps {

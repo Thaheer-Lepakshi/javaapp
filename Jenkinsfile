@@ -26,7 +26,7 @@ pipeline {
                     sh "docker tag thaheeroutis/jenkins:${BUILD_NUMBER} thaheeroutis/jenkins:${BUILD_NUMBER}"
                     sh 'echo "$DPWD" | docker login -u "$USERNAME" --password-stdin'
                     sh "docker push thaheeroutis/jenkins:${BUILD_NUMBER}"
-                    sh "docker run -d -p 8003:8080 thaheeroutis/jenkins:${BUILD_NUMBER}"
+                    sh "docker run -d -p 8083:8080 thaheeroutis/jenkins:${BUILD_NUMBER}"
                 }
             }
 
